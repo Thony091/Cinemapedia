@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:cinemapedia/config/theme/app_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:cinemapedia/config/router/app_router.dart';
 
-void main() => runApp(const MyApp());
+Future<void> main() async{
+  //para leer el archivo ".env" y defina su uso de manera global
+  await dotenv.load(fileName: '.env');
+
+  runApp(const MyApp());
+} 
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
