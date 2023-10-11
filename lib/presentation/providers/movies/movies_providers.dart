@@ -32,5 +32,4 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     state = [...state, ...movies];
 
   }
-
 }
