@@ -67,8 +67,3 @@ class MovieMovieDB {
     };
 }
 
-enum OriginalLanguage {
-    EN,
-    IS
-}
-
