@@ -1,4 +1,5 @@
-import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
+
+import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:cinemapedia/presentation/providers/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +11,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: _HomeView());
+    return const Scaffold(
+      body: _HomeView(), //Cuerpo
+      bottomNavigationBar: CustomBottomNavigation(),
+    );
   }
 }
 
@@ -28,17 +32,26 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(); //Puente
+
+    ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage(); //Puente
   }
 
   @override
   Widget build(BuildContext context) {
-    final nowPlatingMovies = ref.watch(nowPlayingMoviesProvider);
+
+    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final slideShowMovies = ref.watch( moviesSlideShowProvider );
 
     return Column(
       children: [
         const CustomAppbar(),
-        MoviesSlidehow(movies: nowPlatingMovies )
+
+        MoviesSlidehow(movies: slideShowMovies ),
+        MovieHorizontalListview(
+          movies: nowPlayingMovies,
+          title:  'En Cines',
+          subTitle: 'Lunes 20',)
+
       ],
     );
   }
