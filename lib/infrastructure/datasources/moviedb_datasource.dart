@@ -20,7 +20,10 @@ class MovieDbDatasource extends MoviesDatasource{
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async{
     
-    final response = await dio.get('/movie/now_playing'); //obtengo la data de la extension
+    final response = await dio.get('/movie/now_playing',
+     queryParameters: {
+      'page': page
+    }); //obtengo la data de la extension
     final movieDBResponse =  MovieDbResponse.fromJson(response.data); //guardo el json de la data de que viene de la variable "response"
 
     //guardamos en la variable "movies",  el resultado de la Iterable obtenida por método ".map()" creado a partir de una lista de la instancia de clase y método "movieDBResponse.fromJson"(results), en base a conversion con el mètodo "MovieMapper.movieDBToEntity" para obtener el mismo listado en formato distinto(Movie) y finalmente se transforma en una lista con ".toList()"

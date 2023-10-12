@@ -3,7 +3,7 @@ import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
-class MovieHorizontalListview extends StatelessWidget {
+class MovieHorizontalListview extends StatefulWidget {
 
   final List<Movie> movies;
   final String? title;
@@ -14,7 +14,37 @@ class MovieHorizontalListview extends StatelessWidget {
   required this.movies, 
   this.title, 
   this.subTitle, 
-  this.loadNextPage});
+  this.loadNextPage
+  });
+
+  @override
+  State<MovieHorizontalListview> createState() => _MovieHorizontalListviewState();
+}
+
+class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
+
+  final scrollController = ScrollController(); // PAra poder controlar el scroller
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    scrollController.addListener(() { // para agregarlo a la "lista de escuchados"
+      if(widget.loadNextPage == null )return;
+
+      if( scrollController.position.pixels + 200 >= scrollController.position.maxScrollExtent ){
+        print('Load next movies');
+        widget.loadNextPage!();
+      }
+    });
+  }
+
+  @override
+  void dispose() { //para destruir el addListener cuando se haya terminado
+    // TODO: implement dispose
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +53,18 @@ class MovieHorizontalListview extends StatelessWidget {
       child: Column(
         children: [
           
-          if(title != null || subTitle == null)
-          _Title(title: title, subtitle: subTitle,),
+          if(widget.title != null || widget.subTitle == null)
+          _Title(title: widget.title, subtitle: widget.subTitle,),
 
           Expanded(
             //elegir "ListView.builder" para construir muchos widgets
             child: ListView.builder(
-              itemCount: movies.length,
+              controller: scrollController,
+              itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return _Slide(movie: movies[index]);           
+                return _Slide(movie: widget.movies[index]);           
               }
             ,)
           )
