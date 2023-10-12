@@ -31,7 +31,7 @@ class MovieHorizontalListview extends StatelessWidget {
             child: ListView.builder(
               itemCount: movies.length,
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return _Slide(movie: movies[index]);           
               }
@@ -55,23 +55,24 @@ class _Slide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final textStyle = Theme.of(context).textTheme;
+    final textStyle = Theme.of(context).textTheme;//obtenciòn lo todos los temas de textos
+
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
+      margin: const EdgeInsets.symmetric(horizontal: 8), //margen para ambos lados(horizontal) de 8 px (separaciòn de widgets)
+      child: Column( //Columna con varios widgets(horizontal), alineamiento al princio de espacio(izquierda)
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          SizedBox( // Caja de 150 px de ancho, aplicando a los widgets internos redondeo (ClipRRect)
             width: 150,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
+              child: Image.network( // solicitud de imagen de la web ("movie.posterPath" consumo del API) con ancho de 150 px con adaptaciòn al "cuerpo"
                 movie.posterPath,
                 fit: BoxFit.cover,
                 width: 150,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null){
-                    return const Padding(
+                    return const Padding( //padding que da espacio de 8 px al circulo de progreso de carga con grosor de 2 px
                       padding: EdgeInsets.all(8.0),
                       child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
                     );
@@ -82,9 +83,9 @@ class _Slide extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 5,),
+          const SizedBox(height: 5,),
           //* Title
-          SizedBox(
+          SizedBox( // caja con ancho 150 px, maximo de 2 lineas permitidas y estilo pequeño de fuente de letras 
             width: 150,
             child: Text(
               movie.title,
